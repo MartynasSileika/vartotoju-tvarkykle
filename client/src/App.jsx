@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import "./App.css";
 import MyForm from "./components/MyForm";
-import axios from "axios";
 import UserList from "./components/UserList";
 import {
   getUsers,
@@ -22,60 +21,28 @@ class App extends Component {
   }
 
   createNewUser = async (dataToCreateNewUser) => {
-    console.log("createNewUser in app.jsx Fired");
-    console.log("dataToCreateNewUser", dataToCreateNewUser);
-
-    try {
-      const createResult = await axios.post(
-        "http://localhost:4000/api/user/new",
-        dataToCreateNewUser
-      );
-
+    const success = await createUserSend(dataToCreateNewUser);
+    if (success) {
       this.getAllUsers();
-      console.log("createResult", createResult.data);
-      return createResult.data ? true : false;
-    } catch (error) {
-      console.error(error);
+      return true;
     }
   };
 
   getAllUsers = async () => {
-    try {
-      const allUsersFromDb = await axios.get("http://localhost:4000/api/user");
+    const usersArr = await getUsers();
+    this.setState({ users: usersArr });
+  };
 
-      console.log("inside Try");
-      if (Array.isArray(allUsersFromDb.data) && allUsersFromDb.data.length) {
-        this.setState({ users: allUsersFromDb.data });
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
   deleteUser = async (id) => {
-    console.log("you want to delete", id);
-    try {
-      const deleteResult = await axios.delete(
-        "http://localhost:4000/api/user/delete/" + id
-      );
-      console.log("deleteResult", deleteResult.data);
-      if (deleteResult.data) {
-        this.getAllUsers();
-      }
-    } catch (error) {
-      console.error(error);
+    const success = await deleteUserSend(id);
+    if (success) {
+      this.getAllUsers();
     }
   };
-  updatePlace = async (id, updatedDetails) => {
+  updateUser = async (id, updatedDetails) => {
     console.log("about to update User", id, updatedDetails);
-    try {
-      const updateResult = await axios.put(
-        "http://localhost:4000/api/user/update/" + id,
-        updatedDetails
-      );
-      if (updateResult.data) this.getAllUsers();
-    } catch (error) {
-      console.error(error);
-    }
+    const success = await updateUserSend(id, updatedDetails);
+    success && this.getAllUsers();
   };
 
   render() {
@@ -84,7 +51,7 @@ class App extends Component {
         <div className="container">
           <MyForm onCreateNewUser={this.createNewUser} />
           <UserList
-            onUpdate={this.updatePlace}
+            onUpdate={this.updateUser}
             onDelete={this.deleteUser}
             users={this.state.users}
           />

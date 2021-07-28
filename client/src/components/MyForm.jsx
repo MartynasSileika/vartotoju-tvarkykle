@@ -44,7 +44,7 @@ class MyForm extends Component {
       password,
     };
 
-    // jei mes esam Place item vidue tai norim vygdyti PlaceItem metoda
+    // jei mes esam User item vidue tai norim vygdyti UserItem metoda
     if (this.props.user) {
       console.log("Editinam ");
       this.props.onEdit(dataToCreateNewUser);

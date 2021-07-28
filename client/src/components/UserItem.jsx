@@ -5,21 +5,22 @@ class UserItem extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isEdiOn: false,
+      isEditOn: false,
     };
   }
 
   handleEdit = (updatedUserData) => {
-    if (this.state.isEdiOn)
+    if (this.state.isEditOn)
       this.props.onUpdate(this.props.user._id, updatedUserData);
-    this.setState({ isEdiOn: !this.state.isEdiOn });
+
+    this.setState({ isEditOn: !this.state.isEditOn });
   };
 
   render() {
     const { user: u } = this.props;
     return (
       <div className="card m-2 text-white bg-secondary ">
-        {this.state.isEdiOn ? (
+        {this.state.isEditOn ? (
           <MyForm user={u} onEdit={this.handleEdit} />
         ) : (
           <React.Fragment>
@@ -30,7 +31,9 @@ class UserItem extends Component {
               <p className="card-text">Email: {u.email}</p>
             </div>
             <div className="card-footer">
-              <button className="btn btn-success">Edit</button>
+              <button onClick={this.handleEdit} className="btn btn-primary">
+                Edit
+              </button>
               <button
                 onClick={() => this.props.onDelete(u._id)}
                 className="btn btn-danger"
