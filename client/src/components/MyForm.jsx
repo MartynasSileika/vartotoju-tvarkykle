@@ -2,15 +2,24 @@ import React, { Component } from "react";
 
 class MyForm extends Component {
   state = {
-    name: "Paulius",
+    name: "",
     age: "",
     email: "",
     password: "",
   };
 
   handleSubmitLocal = (e) => {
+    const { name, age, email, password } = this.state;
     e.preventDefault();
     console.log("stop right there");
+    const dataToCreateNewUser = {
+      name,
+      age,
+      email,
+      password,
+    };
+    console.log("dataToCreateNewUser", dataToCreateNewUser);
+    this.props.onCreateNewUser(dataToCreateNewUser);
   };
 
   handleInput = (e) => {
