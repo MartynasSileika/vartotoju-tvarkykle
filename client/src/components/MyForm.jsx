@@ -56,7 +56,7 @@ class MyForm extends Component {
             <input
               value={s.email}
               onChange={this.handleInput}
-              type="text"
+              type="email"
               className="form-control"
               name="email"
               placeholder="Email"
