@@ -8,8 +8,11 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      users: [1, 2, 3],
+      users: [],
     };
+  }
+  componentDidMount() {
+    this.getAllUsers();
   }
 
   createNewUser = async (dataToCreateNewUser) => {
@@ -28,9 +31,22 @@ class App extends Component {
     }
   };
 
+  getAllUsers = async () => {
+    try {
+      const allUsersFromDb = await axios.get("http://localhost:4000/api/user");
+
+      console.log("inside Try");
+      if (Array.isArray(allUsersFromDb.data) && allUsersFromDb.data.length) {
+        this.setState({ users: allUsersFromDb.data });
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   render() {
     return (
-      <div className="container d-flex">
+      <div className="container">
         <div className="container">
           <MyForm onCreateNewUser={this.createNewUser} />
           <UserList users={this.state.users} />

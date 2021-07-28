@@ -16,4 +16,14 @@ router.post("/api/user/new", async (req, res) => {
   }
 });
 
+// get all Users
+router.get("/api/user", async (req, res) => {
+  try {
+    const allUsersFromDb = await UserModel.find({});
+    res.json(allUsersFromDb);
+  } catch (error) {
+    res.status(500).json();
+  }
+});
+
 module.exports = router;
