@@ -37,4 +37,19 @@ router.delete("/api/user/delete/:userId", async (req, res) => {
   }
 });
 
+// Update a User
+router.put("/api/user/update/:userId", async (req, res) => {
+  const idOfItemToUpdate = req.params.userId;
+  const updatedUserData = req.body;
+  try {
+    const updateResult = await UserModel.findByIdAndUpdate(
+      idOfItemToUpdate,
+      updatedUserData
+    );
+    res.json(updateResult);
+  } catch (error) {
+    res.status(500).json();
+  }
+});
+
 module.exports = router;

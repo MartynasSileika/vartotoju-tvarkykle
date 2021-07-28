@@ -3,6 +3,12 @@ import "./App.css";
 import MyForm from "./components/MyForm";
 import axios from "axios";
 import UserList from "./components/UserList";
+import {
+  getUsers,
+  updateUserSend,
+  createUserSend,
+  deleteUserSend,
+} from "./utils/request";
 
 class App extends Component {
   constructor(props) {
@@ -61,6 +67,15 @@ class App extends Component {
   };
   updatePlace = async (id, updatedDetails) => {
     console.log("about to update User", id, updatedDetails);
+    try {
+      const updateResult = await axios.put(
+        "http://localhost:4000/api/user/update/" + id,
+        updatedDetails
+      );
+      if (updateResult.data) this.getAllUsers();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   render() {
