@@ -52,11 +52,15 @@ class App extends Component {
         "http://localhost:4000/api/user/delete/" + id
       );
       console.log("deleteResult", deleteResult.data);
-
-      this.getAllUsers();
+      if (deleteResult.data) {
+        this.getAllUsers();
+      }
     } catch (error) {
       console.error(error);
     }
+  };
+  updatePlace = async (id, updatedDetails) => {
+    console.log("about to update User", id, updatedDetails);
   };
 
   render() {
@@ -64,7 +68,11 @@ class App extends Component {
       <div className="container">
         <div className="container">
           <MyForm onCreateNewUser={this.createNewUser} />
-          <UserList onDelete={this.deleteUser} users={this.state.users} />
+          <UserList
+            onUpdate={this.updatePlace}
+            onDelete={this.deleteUser}
+            users={this.state.users}
+          />
         </div>
       </div>
     );

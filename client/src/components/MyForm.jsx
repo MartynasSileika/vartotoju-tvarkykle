@@ -8,6 +8,21 @@ class MyForm extends Component {
     password: "",
   };
 
+  componentDidMount() {
+    // kai komponentas yra edit vietoje
+    this.props.user && this.propsToState();
+  }
+
+  propsToState() {
+    const { name, age, email, password } = this.props.user;
+    this.setState({
+      name,
+      age,
+      email,
+      password,
+    });
+  }
+
   clearInputs = () => {
     this.setState({
       name: "",
@@ -21,13 +36,23 @@ class MyForm extends Component {
     const { name, age, email, password } = this.state;
     e.preventDefault();
     console.log("stop right there");
+
     const dataToCreateNewUser = {
       name,
       age,
       email,
       password,
     };
-    console.log("dataToCreateNewUser", dataToCreateNewUser);
+
+    // jei mes esam Place item vidue tai norim vygdyti PlaceItem metoda
+    if (this.props.user) {
+      console.log("Editinam ");
+      this.props.onEdit(dataToCreateNewUser);
+      return;
+    }
+    console.log("Sukuriam");
+
+    // console.log("dataToCreateNewUser", dataToCreateNewUser);
     const createSuccess = await this.props.onCreateNewUser(dataToCreateNewUser);
     if (createSuccess) this.clearInputs();
   };
@@ -39,8 +64,8 @@ class MyForm extends Component {
   render() {
     const { state: s } = this;
     return (
-      <div className="w-50">
-        <h2>Create new User</h2>
+      <div className={this.props.user ? "card-body" : "w-50"}>
+        {this.props.user ? null : <h2>Create new User</h2>}
         <form onSubmit={this.handleSubmitLocal} autoComplete="off">
           <div className="form-group">
             <input
@@ -82,7 +107,9 @@ class MyForm extends Component {
               placeholder="password"
             />
           </div>
-          <button className="btn btn-primary my-4">Create</button>
+          <button className="btn btn-primary my-4">
+            {this.props.user ? "Save" : "Create"}
+          </button>
         </form>
       </div>
     );
