@@ -8,13 +8,15 @@ class App extends Component {
 
   createNewUser = async (dataToCreateNewUser) => {
     console.log("createNewUser in app.jsx Fired");
-    console.log("dataToCreateNewUser", dataToCreateNewUser.data);
+    console.log("dataToCreateNewUser", dataToCreateNewUser);
+
     try {
       const createResult = await axios.post(
         "http://localhost:4000/api/user/new",
         dataToCreateNewUser
       );
-      console.log("createResult", createResult);
+      console.log("createResult", createResult.data);
+      return createResult.data ? true : false;
     } catch (error) {
       console.error(error);
     }

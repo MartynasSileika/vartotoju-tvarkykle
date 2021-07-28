@@ -8,7 +8,16 @@ class MyForm extends Component {
     password: "",
   };
 
-  handleSubmitLocal = (e) => {
+  clearInputs = () => {
+    this.setState({
+      name: "",
+      age: "",
+      email: "",
+      password: "",
+    });
+  };
+
+  handleSubmitLocal = async (e) => {
     const { name, age, email, password } = this.state;
     e.preventDefault();
     console.log("stop right there");
@@ -19,7 +28,8 @@ class MyForm extends Component {
       password,
     };
     console.log("dataToCreateNewUser", dataToCreateNewUser);
-    this.props.onCreateNewUser(dataToCreateNewUser);
+    const createSuccess = await this.props.onCreateNewUser(dataToCreateNewUser);
+    if (createSuccess) this.clearInputs();
   };
 
   handleInput = (e) => {
