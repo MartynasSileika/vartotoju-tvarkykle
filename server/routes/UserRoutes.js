@@ -26,4 +26,15 @@ router.get("/api/user", async (req, res) => {
   }
 });
 
+// delete a place
+router.delete("/api/user/delete/:userId", async (req, res) => {
+  const idOfItemToDelete = req.params.userId;
+  try {
+    const deleteResult = await UserModel.findByIdAndDelete(idOfItemToDelete);
+    res.json(deleteResult);
+  } catch (error) {
+    res.status(500).json();
+  }
+});
+
 module.exports = router;

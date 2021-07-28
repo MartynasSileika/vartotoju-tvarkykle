@@ -24,6 +24,8 @@ class App extends Component {
         "http://localhost:4000/api/user/new",
         dataToCreateNewUser
       );
+
+      this.getAllUsers();
       console.log("createResult", createResult.data);
       return createResult.data ? true : false;
     } catch (error) {
@@ -43,13 +45,26 @@ class App extends Component {
       console.error(error);
     }
   };
+  deleteUser = async (id) => {
+    console.log("you want to delete", id);
+    try {
+      const deleteResult = await axios.delete(
+        "http://localhost:4000/api/user/delete/" + id
+      );
+      console.log("deleteResult", deleteResult.data);
+
+      this.getAllUsers();
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   render() {
     return (
       <div className="container">
         <div className="container">
           <MyForm onCreateNewUser={this.createNewUser} />
-          <UserList users={this.state.users} />
+          <UserList onDelete={this.deleteUser} users={this.state.users} />
         </div>
       </div>
     );
