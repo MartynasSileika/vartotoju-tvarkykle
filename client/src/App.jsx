@@ -2,9 +2,15 @@ import React, { Component } from "react";
 import "./App.css";
 import MyForm from "./components/MyForm";
 import axios from "axios";
+import UserList from "./components/UserList";
 
 class App extends Component {
-  state = {};
+  constructor(props) {
+    super(props);
+    this.state = {
+      users: [1, 2, 3],
+    };
+  }
 
   createNewUser = async (dataToCreateNewUser) => {
     console.log("createNewUser in app.jsx Fired");
@@ -24,9 +30,10 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
+      <div className="container d-flex">
         <div className="container">
           <MyForm onCreateNewUser={this.createNewUser} />
+          <UserList users={this.state.users} />
         </div>
       </div>
     );
