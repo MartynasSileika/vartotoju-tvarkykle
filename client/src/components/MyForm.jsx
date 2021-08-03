@@ -104,7 +104,7 @@ class MyForm extends Component {
               type="text"
               className="form-control"
               name="password"
-              placeholder="TIKRINU COMMIT LAIKA"
+              placeholder="TIKRINU AGAIN"
             />
           </div>
           <button className="btn btn-primary my-4">
